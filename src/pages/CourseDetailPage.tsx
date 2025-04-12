@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -173,24 +174,7 @@ const CourseDetailPage = () => {
             </h1>
             <p className="text-gray-600">{course.description}</p>
             
-            <div className="flex flex-wrap items-center gap-4 pt-2">
-              <div className="flex items-center">
-                <Users className="h-4 w-4 mr-2 text-gray-500" />
-                <span className="text-sm text-gray-600">{course.enrolled} enrolled</span>
-              </div>
-              <div className="flex items-center">
-                <Clock className="h-4 w-4 mr-2 text-gray-500" />
-                <span className="text-sm text-gray-600">{course.duration}</span>
-              </div>
-              <div className="flex items-center">
-                <Book className="h-4 w-4 mr-2 text-gray-500" />
-                <span className="text-sm text-gray-600">{course.lessons.length} lessons</span>
-              </div>
-              <div className="flex items-center">
-                <Star className="h-4 w-4 mr-2 text-amber-500" />
-                <span className="text-sm text-gray-600">{course.rating} ({course.reviews} reviews)</span>
-              </div>
-            </div>
+            {/* Removed the course metadata section (enrolled, weeks, lessons, ratings) */}
           </div>
           
           <div className="w-full md:w-auto">

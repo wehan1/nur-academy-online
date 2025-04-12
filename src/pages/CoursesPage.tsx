@@ -238,20 +238,7 @@ const CoursesPage = () => {
                   <p className="text-sm text-gray-600 line-clamp-2 mb-4">
                     {course.description}
                   </p>
-                  <div className="flex flex-wrap gap-y-2 text-sm text-gray-500">
-                    <div className="flex items-center mr-4">
-                      <BookOpen className="h-4 w-4 mr-1" />
-                      {course.lessons} lessons
-                    </div>
-                    <div className="flex items-center mr-4">
-                      <Clock className="h-4 w-4 mr-1" />
-                      {course.duration}
-                    </div>
-                    <div className="flex items-center">
-                      <Star className="h-4 w-4 mr-1 text-amber-500" />
-                      {course.rating}
-                    </div>
-                  </div>
+                  {/* Removed course metadata (lessons, duration, rating) */}
                 </CardContent>
                 <CardFooter>
                   <Button 
