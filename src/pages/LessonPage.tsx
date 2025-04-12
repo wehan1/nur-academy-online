@@ -22,7 +22,8 @@ import {
   Play,
   CheckCircle,
   Video,
-  BookOpen
+  BookOpen,
+  Clock
 } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import AIChatBox from "@/components/lesson/AIChatBox";
