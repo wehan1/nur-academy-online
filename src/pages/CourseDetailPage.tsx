@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -34,50 +33,7 @@ const allCourses = [
     level: 1,
     subject: "Quran",
     duration: "8 weeks",
-    lessons: [
-      {
-        id: "lesson1-1",
-        title: "Introduction to the Quran",
-        duration: "30 minutes",
-        description: "Learn about the significance and structure of the Holy Quran.",
-        completed: true
-      },
-      {
-        id: "lesson1-2",
-        title: "Arabic Alphabet - Part 1",
-        duration: "45 minutes",
-        description: "Introduction to the first set of Arabic letters.",
-        completed: true
-      },
-      {
-        id: "lesson1-3",
-        title: "Arabic Alphabet - Part 2",
-        duration: "45 minutes",
-        description: "Learn the remaining Arabic letters and their pronunciations.",
-        completed: true
-      },
-      {
-        id: "lesson1-4",
-        title: "Vowel Marks (Harakaat)",
-        duration: "40 minutes",
-        description: "Understanding Fatha, Kasra, and Damma.",
-        completed: false
-      },
-      {
-        id: "lesson1-5",
-        title: "Connecting Letters",
-        duration: "50 minutes",
-        description: "Practice joining letters to form words.",
-        completed: false
-      },
-      {
-        id: "lesson1-6",
-        title: "Reading Simple Words",
-        duration: "45 minutes",
-        description: "Start reading basic Quranic words.",
-        completed: false
-      },
-    ],
+    lessons: [],
     instructors: [
       {
         id: "teacher1",
