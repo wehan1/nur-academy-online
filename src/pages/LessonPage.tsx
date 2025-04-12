@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -23,12 +22,14 @@ import {
   CheckCircle,
   Video,
   BookOpen,
-  Clock
+  Clock,
+  Info,
+  Award,
+  ExternalLink
 } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import AIChatBox from "@/components/lesson/AIChatBox";
 
-// Mock data for a single course with lessons
 const course = {
   id: "course1",
   title: "Quran Reading Basics",
@@ -40,38 +41,178 @@ const course = {
       description: "Learn about the significance and structure of the Holy Quran.",
       content: `
         <div class="prose max-w-none">
-          <h2>The Holy Quran</h2>
-          <p>The Quran is the central religious text of Islam, believed by Muslims to be a revelation from Allah (God). It is widely regarded as the finest work in classical Arabic literature.</p>
+          <div class="bg-gradient-to-r from-madrasah-purple-light to-madrasah-blue-light p-6 rounded-lg mb-8 text-center">
+            <h2 class="text-3xl font-bold text-madrasah-purple-dark mb-2">The Holy Quran</h2>
+            <p class="text-madrasah-blue-dark">The Divine Book of Guidance for Muslims</p>
+          </div>
+
+          <div class="flex flex-col md:flex-row gap-6 mb-8">
+            <div class="flex-1 p-5 bg-madrasah-purple-light/20 rounded-lg border border-madrasah-purple-light">
+              <h3 class="text-xl font-semibold text-madrasah-purple-dark flex items-center mb-3">
+                <Info class="w-5 h-5 mr-2" />
+                What is the Quran?
+              </h3>
+              <p class="mb-4">The Quran is the central religious text of Islam, believed by Muslims to be a revelation from Allah (God). It is widely regarded as the finest work in classical Arabic literature.</p>
+              
+              <div class="flex justify-center my-4">
+                <img src="/lovable-uploads/07ae5ae0-b56c-4a47-9c81-8c07d1ddc290.png" alt="Holy Quran" class="rounded-lg shadow-md max-w-full max-h-48 object-contain" />
+              </div>
+              
+              <div class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+                <p class="italic text-gray-700">"This is the Book about which there is no doubt, a guidance for those conscious of Allah." <span class="font-semibold">- Quran 2:2</span></p>
+              </div>
+            </div>
+            
+            <div class="flex-1 p-5 bg-madrasah-blue-light/20 rounded-lg border border-madrasah-blue-light">
+              <h3 class="text-xl font-semibold text-madrasah-blue-dark flex items-center mb-3">
+                <Award class="w-5 h-5 mr-2" />
+                Significance
+              </h3>
+              <p>For Muslims, the Quran:</p>
+              <ul class="list-disc pl-5 space-y-2 my-3">
+                <li>Is the literal word of Allah</li>
+                <li>Provides guidance for all aspects of life</li>
+                <li>Contains timeless wisdom and teachings</li>
+                <li>Maintains its original Arabic text unchanged for over 1400 years</li>
+              </ul>
+              
+              <div class="mt-4 flex items-center justify-center">
+                <button class="interactive-item py-2 px-4 rounded-md bg-madrasah-blue text-white flex items-center hover:bg-madrasah-blue-dark transition-colors" onclick="alert('This would play a short audio recitation in a real app')">
+                  <Play class="w-4 h-4 mr-2" />
+                  Listen to Recitation
+                </button>
+              </div>
+            </div>
+          </div>
           
-          <p>The Quran is divided into chapters (surah) and verses (ayat). There are 114 chapters in the Quran, which are classified as either Meccan or Medinan depending on when and where the revelations were received by Prophet Muhammad ﷺ.</p>
+          <h3 class="text-xl font-semibold text-madrasah-purple flex items-center my-4">
+            Structure of the Quran
+          </h3>
           
-          <h3>Structure of the Quran</h3>
-          <ul>
-            <li><strong>Surah (Chapters)</strong>: 114 chapters of varying lengths</li>
-            <li><strong>Juz (Parts)</strong>: 30 parts of roughly equal length</li>
-            <li><strong>Ayat (Verses)</strong>: 6,236 verses</li>
-          </ul>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div class="bg-madrasah-purple-light/30 p-4 rounded-lg text-center hover:shadow-md transition-shadow interactive-item">
+              <div class="text-2xl font-bold mb-2 text-madrasah-purple">114</div>
+              <div class="font-medium">Surah (Chapters)</div>
+              <div class="text-sm text-gray-600">of varying lengths</div>
+            </div>
+            
+            <div class="bg-madrasah-purple-light/30 p-4 rounded-lg text-center hover:shadow-md transition-shadow interactive-item">
+              <div class="text-2xl font-bold mb-2 text-madrasah-purple">30</div>
+              <div class="font-medium">Juz (Parts)</div>
+              <div class="text-sm text-gray-600">of roughly equal length</div>
+            </div>
+            
+            <div class="bg-madrasah-purple-light/30 p-4 rounded-lg text-center hover:shadow-md transition-shadow interactive-item">
+              <div class="text-2xl font-bold mb-2 text-madrasah-purple">6,236</div>
+              <div class="font-medium">Ayat (Verses)</div>
+              <div class="text-sm text-gray-600">throughout the Quran</div>
+            </div>
+          </div>
           
-          <h3>Importance in Islam</h3>
-          <p>The Quran serves as the primary source of Islamic law and practice. Its teachings cover various aspects of human life, including:</p>
-          <ul>
-            <li>Belief and theology</li>
-            <li>Worship and rituals</li>
-            <li>Ethics and morality</li>
-            <li>Social relations</li>
-            <li>Laws and governance</li>
-          </ul>
+          <div class="bg-madrasah-green-light/20 p-5 rounded-lg border border-madrasah-green-light mb-8">
+            <h3 class="text-xl font-semibold text-madrasah-green-dark mb-3">Importance in Islam</h3>
+            <p class="mb-3">The Quran serves as the primary source of Islamic law and practice. Its teachings cover various aspects of human life, including:</p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 my-4">
+              <div class="bg-white p-3 rounded-md shadow-sm flex items-center">
+                <div class="w-3 h-3 rounded-full bg-madrasah-green mr-2"></div>
+                <span>Belief and theology</span>
+              </div>
+              <div class="bg-white p-3 rounded-md shadow-sm flex items-center">
+                <div class="w-3 h-3 rounded-full bg-madrasah-green mr-2"></div>
+                <span>Worship and rituals</span>
+              </div>
+              <div class="bg-white p-3 rounded-md shadow-sm flex items-center">
+                <div class="w-3 h-3 rounded-full bg-madrasah-green mr-2"></div>
+                <span>Ethics and morality</span>
+              </div>
+              <div class="bg-white p-3 rounded-md shadow-sm flex items-center">
+                <div class="w-3 h-3 rounded-full bg-madrasah-green mr-2"></div>
+                <span>Social relations</span>
+              </div>
+              <div class="bg-white p-3 rounded-md shadow-sm flex items-center">
+                <div class="w-3 h-3 rounded-full bg-madrasah-green mr-2"></div>
+                <span>Laws and governance</span>
+              </div>
+            </div>
+          </div>
           
-          <h3>Learning to Read the Quran</h3>
-          <p>Learning to read the Quran is considered an important religious duty for Muslims. The process typically involves:</p>
-          <ol>
-            <li>Learning the Arabic alphabet</li>
-            <li>Understanding vowel marks (harakaat)</li>
-            <li>Learning pronunciation rules (tajweed)</li>
-            <li>Practice reading with guidance</li>
-          </ol>
+          <div class="border-l-4 border-madrasah-purple p-4 bg-madrasah-purple-light/10 mb-6">
+            <h3 class="text-xl font-semibold text-madrasah-purple-dark mb-2">Did You Know?</h3>
+            <p>The word "Quran" comes from the Arabic word "qara'a" which means "to read" or "to recite". The Quran is meant to be recited aloud and its melodious recitation is considered a form of worship.</p>
+          </div>
           
-          <p>In the upcoming lessons, we will start with the basics of the Arabic alphabet and gradually build up to reading Quranic text with proper pronunciation.</p>
+          <div class="bg-madrasah-blue-light/10 p-6 rounded-lg mb-6">
+            <h3 class="text-xl font-semibold text-madrasah-blue-dark mb-4">Learning to Read the Quran</h3>
+            <p class="mb-4">Learning to read the Quran is considered an important religious duty for Muslims. The process typically involves:</p>
+            
+            <div class="space-y-4">
+              <div class="flex items-start">
+                <div class="flex-shrink-0 bg-madrasah-blue text-white w-8 h-8 rounded-full flex items-center justify-center mr-3">1</div>
+                <div>
+                  <h4 class="font-medium">Learning the Arabic alphabet</h4>
+                  <p class="text-gray-600">Memorizing the letters and their various forms</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start">
+                <div class="flex-shrink-0 bg-madrasah-blue text-white w-8 h-8 rounded-full flex items-center justify-center mr-3">2</div>
+                <div>
+                  <h4 class="font-medium">Understanding vowel marks (harakaat)</h4>
+                  <p class="text-gray-600">Learning the symbols that indicate how letters should be pronounced</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start">
+                <div class="flex-shrink-0 bg-madrasah-blue text-white w-8 h-8 rounded-full flex items-center justify-center mr-3">3</div>
+                <div>
+                  <h4 class="font-medium">Learning pronunciation rules (tajweed)</h4>
+                  <p class="text-gray-600">Understanding the proper way to pronounce Quranic Arabic</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start">
+                <div class="flex-shrink-0 bg-madrasah-blue text-white w-8 h-8 rounded-full flex items-center justify-center mr-3">4</div>
+                <div>
+                  <h4 class="font-medium">Practice reading with guidance</h4>
+                  <p class="text-gray-600">Regular practice with a teacher to perfect pronunciation</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-amber-50 p-4 rounded-lg border border-amber-200 mb-8">
+            <h3 class="text-lg font-semibold mb-2 flex items-center">
+              <Info class="w-5 h-5 mr-2 text-amber-600" />
+              Check Your Understanding
+            </h3>
+            <div class="space-y-3 quiz-container">
+              <p class="font-medium">How many chapters (surahs) are there in the Quran?</p>
+              <div class="space-y-2">
+                <div class="quiz-option flex items-center bg-white p-2 rounded border border-gray-200 cursor-pointer hover:bg-madrasah-purple-light/10 hover:border-madrasah-purple-light" data-correct="false" onclick="this.classList.toggle('bg-red-50'); this.classList.toggle('border-red-300');">
+                  <div class="w-5 h-5 border border-gray-300 rounded-full mr-2"></div>
+                  <span>100 chapters</span>
+                </div>
+                <div class="quiz-option flex items-center bg-white p-2 rounded border border-gray-200 cursor-pointer hover:bg-madrasah-purple-light/10 hover:border-madrasah-purple-light" data-correct="true" onclick="this.classList.toggle('bg-green-50'); this.classList.toggle('border-green-300');">
+                  <div class="w-5 h-5 border border-gray-300 rounded-full mr-2"></div>
+                  <span>114 chapters</span>
+                </div>
+                <div class="quiz-option flex items-center bg-white p-2 rounded border border-gray-200 cursor-pointer hover:bg-madrasah-purple-light/10 hover:border-madrasah-purple-light" data-correct="false" onclick="this.classList.toggle('bg-red-50'); this.classList.toggle('border-red-300');">
+                  <div class="w-5 h-5 border border-gray-300 rounded-full mr-2"></div>
+                  <span>120 chapters</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="flex justify-center my-6">
+            <a href="https://quran.com" target="_blank" class="flex items-center text-madrasah-blue hover:text-madrasah-blue-dark transition-colors">
+              <span class="mr-2">Visit Quran.com to explore more</span>
+              <ExternalLink class="w-4 h-4" />
+            </a>
+          </div>
+          
+          <p class="mt-5">In the upcoming lessons, we will start with the basics of the Arabic alphabet and gradually build up to reading Quranic text with proper pronunciation.</p>
         </div>
       `,
       resources: [
@@ -86,6 +227,18 @@ const course = {
           title: "Structure of the Quran - Infographic",
           type: "Image",
           size: "1.1 MB"
+        },
+        {
+          id: "resource1-3",
+          title: "History of Quranic Compilation",
+          type: "PDF",
+          size: "3.4 MB"
+        },
+        {
+          id: "resource1-4",
+          title: "Basic Quranic Terminology",
+          type: "PDF",
+          size: "1.8 MB"
         }
       ],
       videoUrl: "#",
@@ -361,14 +514,12 @@ const LessonPage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Find the lesson in our mock data
     const lessonIndex = course.lessons.findIndex(lesson => lesson.id === lessonId);
     
     if (lessonIndex !== -1) {
       setCurrentLesson(course.lessons[lessonIndex]);
       setCurrentLessonIndex(lessonIndex);
     } else {
-      // Lesson not found, redirect to courses page
       navigate(`/courses/${course.id}`);
     }
     
@@ -385,20 +536,16 @@ const LessonPage = () => {
     if (currentLessonIndex < course.lessons.length - 1) {
       navigate(`/lessons/${course.lessons[currentLessonIndex + 1].id}`);
     } else {
-      // If this is the last lesson, go back to course page
       navigate(`/courses/${course.id}`);
     }
   };
 
   const markAsCompleted = () => {
-    // In a real app, this would call an API to mark the lesson as completed
     console.log(`Marking lesson ${currentLesson.id} as completed`);
     
-    // For this demo, just navigate to the next lesson
     if (currentLesson.nextLessonId) {
       navigate(`/lessons/${currentLesson.nextLessonId}`);
     } else {
-      // If this is the last lesson, go back to course page
       navigate(`/courses/${course.id}`);
     }
   };
@@ -416,9 +563,7 @@ const LessonPage = () => {
   return (
     <DashboardLayout>
       <div className="flex flex-col md:flex-row gap-6 h-[calc(100vh-10rem)]">
-        {/* Main Content Area */}
         <div className="flex-1 flex flex-col overflow-hidden">
-          {/* Lesson Header */}
           <div className="bg-white border rounded-lg p-4 mb-4">
             <div className="flex items-center justify-between">
               <button 
@@ -480,7 +625,6 @@ const LessonPage = () => {
             </div>
           </div>
           
-          {/* Lesson Content */}
           <div className="flex-1 bg-white border rounded-lg overflow-hidden flex flex-col">
             <Tabs defaultValue="content" className="flex-1 flex flex-col">
               <div className="border-b px-4">
@@ -569,9 +713,8 @@ const LessonPage = () => {
           </div>
         </div>
         
-        {/* AI Tutor Sidebar */}
         <div className="w-full md:w-96 flex flex-col overflow-hidden">
-          <AIChatBox lessonTitle={currentLesson.title} />
+          <AIChatBox lessonTitle={currentLesson.title} lessonContent={currentLesson.content} />
         </div>
       </div>
     </DashboardLayout>
