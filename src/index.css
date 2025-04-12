@@ -107,4 +107,39 @@
   .card-hover {
     @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
   }
+  
+  /* Rich content styling */
+  .prose h2 {
+    @apply text-2xl font-bold mb-4 text-gray-800;
+  }
+  
+  .prose h3 {
+    @apply text-xl font-semibold mb-3 text-gray-800;
+  }
+  
+  .prose p {
+    @apply mb-4 leading-relaxed;
+  }
+  
+  .prose ul {
+    @apply list-disc pl-6 mb-4 space-y-1;
+  }
+  
+  .prose ol {
+    @apply list-decimal pl-6 mb-4 space-y-1;
+  }
+  
+  /* Interactive elements */
+  .interactive-block {
+    @apply bg-madrasah-purple-light rounded-lg p-4 border border-madrasah-purple/20 my-4 transition-all hover:shadow-md;
+  }
+  
+  /* Audio player styling */
+  .audio-player {
+    @apply flex items-center justify-center gap-3 p-3 bg-gray-50 rounded-lg border;
+  }
+  
+  .audio-player-button {
+    @apply p-2 rounded-full bg-madrasah-purple text-white hover:bg-madrasah-purple-dark transition-colors;
+  }
 }

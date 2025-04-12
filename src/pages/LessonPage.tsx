@@ -16,17 +16,120 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   ChevronLeft, 
   ChevronRight, 
-  MessageSquare, 
   Send, 
   Download,
   Play,
   CheckCircle,
   Video,
   BookOpen,
-  Clock
+  Clock,
+  VolumeUp,
+  Brain,
+  Award
 } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import AIChatBox from "@/components/lesson/AIChatBox";
+import { Badge } from "@/components/ui/badge";
+
+// Simple Quiz Component
+interface QuizQuestion {
+  id: string;
+  question: string;
+  options: string[];
+  correctAnswer: string;
+}
+
+const QuizComponent = ({ questions, onComplete }: { 
+  questions: QuizQuestion[]; 
+  onComplete: (score: number) => void;
+}) => {
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+  const [score, setScore] = useState(0);
+  const [showResult, setShowResult] = useState(false);
+  
+  const handleAnswerSelect = (answer: string) => {
+    setSelectedAnswer(answer);
+    
+    // Auto-submit after selection
+    if (answer === questions[currentQuestion].correctAnswer) {
+      setScore(score + 1);
+    }
+    
+    if (currentQuestion < questions.length - 1) {
+      setTimeout(() => {
+        setCurrentQuestion(currentQuestion + 1);
+        setSelectedAnswer(null);
+      }, 1000);
+    } else {
+      setTimeout(() => {
+        setShowResult(true);
+        onComplete(score + (answer === questions[currentQuestion].correctAnswer ? 1 : 0));
+      }, 1000);
+    }
+  };
+  
+  return (
+    <div className="mt-8 bg-white p-6 rounded-lg border shadow-sm">
+      <h3 className="text-xl font-semibold mb-4 flex items-center text-madrasah-purple">
+        <Brain className="h-5 w-5 mr-2" />
+        Knowledge Check
+      </h3>
+      
+      {!showResult ? (
+        <div>
+          <div className="mb-4">
+            <div className="flex justify-between text-sm text-gray-500 mb-2">
+              <span>Question {currentQuestion + 1} of {questions.length}</span>
+              <span>Score: {score}/{questions.length}</span>
+            </div>
+            <Progress value={((currentQuestion + 1) / questions.length) * 100} className="h-2" />
+          </div>
+          
+          <div className="mb-6">
+            <h4 className="text-lg font-medium mb-3">{questions[currentQuestion].question}</h4>
+            <div className="space-y-2">
+              {questions[currentQuestion].options.map((option, index) => (
+                <div 
+                  key={index}
+                  onClick={() => handleAnswerSelect(option)}
+                  className={`p-3 border rounded-md cursor-pointer transition-colors ${
+                    selectedAnswer === option 
+                      ? option === questions[currentQuestion].correctAnswer
+                        ? "bg-green-100 border-green-300"
+                        : "bg-red-100 border-red-300"
+                      : "hover:bg-gray-50"
+                  }`}
+                >
+                  {option}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="text-center py-8">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-madrasah-purple/10 mb-4">
+            <Award className="h-8 w-8 text-madrasah-purple" />
+          </div>
+          <h3 className="text-xl font-semibold mb-2">Quiz Completed!</h3>
+          <p className="mb-4">Your score: {score} out of {questions.length}</p>
+          <Button 
+            onClick={() => {
+              setCurrentQuestion(0);
+              setScore(0);
+              setSelectedAnswer(null);
+              setShowResult(false);
+            }}
+            className="bg-madrasah-purple hover:bg-madrasah-purple-dark"
+          >
+            Try Again
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+};
 
 // Mock data for a single course with lessons
 const course = {
@@ -40,21 +143,46 @@ const course = {
       description: "Learn about the significance and structure of the Holy Quran.",
       content: `
         <div class="prose max-w-none">
-          <h2>The Holy Quran</h2>
-          <p>The Quran is the central religious text of Islam, believed by Muslims to be a revelation from Allah (God). It is widely regarded as the finest work in classical Arabic literature.</p>
+          <h2 class="text-2xl font-bold mb-4">The Holy Quran</h2>
+          <div class="flex flex-col md:flex-row gap-6 mb-6">
+            <div class="flex-1">
+              <p class="mb-3">The Quran is the central religious text of Islam, believed by Muslims to be a revelation from Allah (God). It is widely regarded as the finest work in classical Arabic literature.</p>
+              
+              <p class="mb-3">The Quran is divided into chapters (surah) and verses (ayat). There are 114 chapters in the Quran, which are classified as either Meccan or Medinan depending on when and where the revelations were received by Prophet Muhammad ﷺ.</p>
+            </div>
+            <div class="md:w-1/3">
+              <div class="rounded-lg overflow-hidden shadow-md">
+                <img src="/lovable-uploads/0eb2fec5-36ef-4f40-8666-856ede4c4900.png" alt="Quran" class="w-full h-auto" />
+                <div class="p-3 bg-madrasah-purple-light text-sm text-center">
+                  The Holy Quran - Allah's revelation to mankind
+                </div>
+              </div>
+            </div>
+          </div>
           
-          <p>The Quran is divided into chapters (surah) and verses (ayat). There are 114 chapters in the Quran, which are classified as either Meccan or Medinan depending on when and where the revelations were received by Prophet Muhammad ﷺ.</p>
+          <h3 class="text-xl font-semibold mb-3">Structure of the Quran</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div class="bg-madrasah-purple-light p-4 rounded-lg">
+              <h4 class="font-bold text-madrasah-purple mb-2">Surah (Chapters)</h4>
+              <p>114 chapters of varying lengths</p>
+            </div>
+            <div class="bg-madrasah-blue-light p-4 rounded-lg">
+              <h4 class="font-bold text-madrasah-blue mb-2">Juz (Parts)</h4>
+              <p>30 parts of roughly equal length</p>
+            </div>
+            <div class="bg-madrasah-green-light p-4 rounded-lg">
+              <h4 class="font-bold text-green-700 mb-2">Ayat (Verses)</h4>
+              <p>6,236 verses</p>
+            </div>
+          </div>
           
-          <h3>Structure of the Quran</h3>
-          <ul>
-            <li><strong>Surah (Chapters)</strong>: 114 chapters of varying lengths</li>
-            <li><strong>Juz (Parts)</strong>: 30 parts of roughly equal length</li>
-            <li><strong>Ayat (Verses)</strong>: 6,236 verses</li>
-          </ul>
+          <div class="bg-amber-50 border-l-4 border-amber-500 p-4 mb-6">
+            <p class="italic text-amber-800">"Indeed, We have sent down to you the Book in truth." - Quran 39:41</p>
+          </div>
           
-          <h3>Importance in Islam</h3>
-          <p>The Quran serves as the primary source of Islamic law and practice. Its teachings cover various aspects of human life, including:</p>
-          <ul>
+          <h3 class="text-xl font-semibold mb-3">Importance in Islam</h3>
+          <p class="mb-3">The Quran serves as the primary source of Islamic law and practice. Its teachings cover various aspects of human life, including:</p>
+          <ul class="list-disc pl-6 mb-6 space-y-1">
             <li>Belief and theology</li>
             <li>Worship and rituals</li>
             <li>Ethics and morality</li>
@@ -62,18 +190,45 @@ const course = {
             <li>Laws and governance</li>
           </ul>
           
-          <h3>Learning to Read the Quran</h3>
-          <p>Learning to read the Quran is considered an important religious duty for Muslims. The process typically involves:</p>
-          <ol>
-            <li>Learning the Arabic alphabet</li>
-            <li>Understanding vowel marks (harakaat)</li>
-            <li>Learning pronunciation rules (tajweed)</li>
-            <li>Practice reading with guidance</li>
+          <h3 class="text-xl font-semibold mb-3">Learning to Read the Quran</h3>
+          <p class="mb-3">Learning to read the Quran is considered an important religious duty for Muslims. The process typically involves:</p>
+          <ol class="list-decimal pl-6 mb-6 space-y-2">
+            <li class="font-medium">Learning the Arabic alphabet</li>
+            <li class="font-medium">Understanding vowel marks (harakaat)</li>
+            <li class="font-medium">Learning pronunciation rules (tajweed)</li>
+            <li class="font-medium">Practice reading with guidance</li>
           </ol>
           
-          <p>In the upcoming lessons, we will start with the basics of the Arabic alphabet and gradually build up to reading Quranic text with proper pronunciation.</p>
+          <div class="flex items-center justify-center my-8">
+            <button class="flex items-center gap-2 px-4 py-2 bg-madrasah-purple text-white rounded-md hover:bg-madrasah-purple-dark transition-colors">
+              <VolumeUp className="h-5 w-5" />
+              Listen to Recitation
+            </button>
+          </div>
+          
+          <p class="mb-3">In the upcoming lessons, we will start with the basics of the Arabic alphabet and gradually build up to reading Quranic text with proper pronunciation.</p>
         </div>
       `,
+      quiz: [
+        {
+          id: "q1-1",
+          question: "How many chapters (surahs) are in the Quran?",
+          options: ["112", "114", "116", "120"],
+          correctAnswer: "114"
+        },
+        {
+          id: "q1-2",
+          question: "How many parts (juz) is the Quran divided into?",
+          options: ["20", "25", "30", "40"],
+          correctAnswer: "30"
+        },
+        {
+          id: "q1-3",
+          question: "Chapters in the Quran are classified as either:",
+          options: ["Long or Short", "Early or Late", "Meccan or Medinan", "Old or New"],
+          correctAnswer: "Meccan or Medinan"
+        }
+      ],
       resources: [
         {
           id: "resource1-1",
@@ -359,6 +514,9 @@ const LessonPage = () => {
   const [currentLesson, setCurrentLesson] = useState<any>(null);
   const [currentLessonIndex, setCurrentLessonIndex] = useState(-1);
   const [isLoading, setIsLoading] = useState(true);
+  const [quizCompleted, setQuizCompleted] = useState(false);
+  const [quizScore, setQuizScore] = useState(0);
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
 
   useEffect(() => {
     // Find the lesson in our mock data
@@ -402,6 +560,11 @@ const LessonPage = () => {
       navigate(`/courses/${course.id}`);
     }
   };
+  
+  const handleQuizComplete = (score: number) => {
+    setQuizCompleted(true);
+    setQuizScore(score);
+  };
 
   if (isLoading || !currentLesson) {
     return (
@@ -419,7 +582,7 @@ const LessonPage = () => {
         {/* Main Content Area */}
         <div className="flex-1 flex flex-col overflow-hidden">
           {/* Lesson Header */}
-          <div className="bg-white border rounded-lg p-4 mb-4">
+          <div className="bg-white border rounded-lg p-4 mb-4 shadow-sm">
             <div className="flex items-center justify-between">
               <button 
                 onClick={() => navigate(`/courses/${course.id}`)}
@@ -455,15 +618,24 @@ const LessonPage = () => {
               <h1 className="text-2xl font-bold">{currentLesson.title}</h1>
               <p className="text-gray-600 mt-1">{currentLesson.description}</p>
               
-              <div className="flex items-center mt-2 text-sm text-gray-500">
-                <Clock className="h-4 w-4 mr-1" />
-                <span>{currentLesson.duration}</span>
+              <div className="flex flex-wrap items-center mt-2 gap-3">
+                <div className="flex items-center text-sm text-gray-500">
+                  <Clock className="h-4 w-4 mr-1" />
+                  <span>{currentLesson.duration}</span>
+                </div>
                 
                 {currentLesson.completed && (
-                  <div className="flex items-center text-green-600 ml-4">
-                    <CheckCircle className="h-4 w-4 mr-1" />
-                    <span>Completed</span>
-                  </div>
+                  <Badge variant="outline" className="bg-green-50 text-green-600 border-green-200">
+                    <CheckCircle className="h-3 w-3 mr-1" />
+                    Completed
+                  </Badge>
+                )}
+                
+                {quizCompleted && (
+                  <Badge variant="outline" className="bg-madrasah-purple-light text-madrasah-purple border-madrasah-purple/30">
+                    <Award className="h-3 w-3 mr-1" />
+                    Quiz Score: {quizScore}/{currentLesson.quiz?.length || 0}
+                  </Badge>
                 )}
               </div>
             </div>
@@ -481,7 +653,7 @@ const LessonPage = () => {
           </div>
           
           {/* Lesson Content */}
-          <div className="flex-1 bg-white border rounded-lg overflow-hidden flex flex-col">
+          <div className="flex-1 bg-white border rounded-lg overflow-hidden flex flex-col shadow-sm">
             <Tabs defaultValue="content" className="flex-1 flex flex-col">
               <div className="border-b px-4">
                 <TabsList className="h-12">
@@ -499,6 +671,14 @@ const LessonPage = () => {
               <TabsContent value="content" className="flex-1 overflow-y-auto p-6 m-0 border-none">
                 <div dangerouslySetInnerHTML={{ __html: currentLesson.content }} />
                 
+                {/* Quiz Section */}
+                {currentLesson.quiz && currentLesson.quiz.length > 0 && (
+                  <QuizComponent 
+                    questions={currentLesson.quiz} 
+                    onComplete={handleQuizComplete} 
+                  />
+                )}
+                
                 {currentLesson.resources && currentLesson.resources.length > 0 && (
                   <div className="mt-8 border-t pt-6">
                     <h3 className="text-lg font-semibold mb-4">Resources</h3>
@@ -506,7 +686,7 @@ const LessonPage = () => {
                       {currentLesson.resources.map((resource: any) => (
                         <div 
                           key={resource.id} 
-                          className="border rounded-lg p-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+                          className="border rounded-lg p-4 flex items-center justify-between hover:bg-gray-50 transition-colors shadow-sm"
                         >
                           <div className="flex items-center">
                             <div className="w-10 h-10 rounded-md bg-madrasah-purple-light text-madrasah-purple flex items-center justify-center mr-3">
@@ -518,7 +698,7 @@ const LessonPage = () => {
                               <p className="text-xs text-gray-500">{resource.size}</p>
                             </div>
                           </div>
-                          <Button size="sm" variant="outline">
+                          <Button size="sm" variant="outline" className="text-madrasah-purple border-madrasah-purple hover:bg-madrasah-purple/5">
                             <Download className="h-4 w-4 mr-1" />
                             Download
                           </Button>
@@ -571,7 +751,7 @@ const LessonPage = () => {
         
         {/* AI Tutor Sidebar */}
         <div className="w-full md:w-96 flex flex-col overflow-hidden">
-          <AIChatBox lessonTitle={currentLesson.title} />
+          <AIChatBox lessonTitle={currentLesson.title} lessonContent={currentLesson.content} />
         </div>
       </div>
     </DashboardLayout>
