@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -74,7 +73,7 @@ const AIChatBox = ({ lessonTitle }: AIChatBoxProps) => {
         "The Arabic letter you're asking about is pronounced from the throat. Try to make a soft sound while exhaling gently.",
         "Tajweed is the set of rules governing pronunciation during recitation of the Quran. It's important because it preserves the original way the Quran was revealed.",
         "You're doing great! Remember that learning Quran takes time and consistent practice. The Prophet Muhammad ﷺ said: \"The best among you are those who learn the Quran and teach it.\"",
-        "This surah has 7 verses and is often recited in every prayer. It's called the "Opening" of the Quran and is essential for every Muslim to memorize.",
+        "This surah has 7 verses and is often recited in every prayer. It's called the \"Opening\" of the Quran and is essential for every Muslim to memorize.",
       ];
       
       const randomResponse = responses[Math.floor(Math.random() * responses.length)];
