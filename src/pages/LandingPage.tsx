@@ -1,14 +1,11 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, Book, Users, Award, Video } from "lucide-react";
 import MainLayout from "@/components/layouts/MainLayout";
 import HeroImage from "@/components/HeroImage";
-
 const LandingPage = () => {
-  return (
-    <MainLayout>
+  return <MainLayout>
       <div className="container px-4 md:px-6 mx-auto">
         {/* Hero Section */}
         <section className="py-12 md:py-24 lg:py-32 flex flex-col md:flex-row items-center gap-8">
@@ -114,54 +111,10 @@ const LandingPage = () => {
 
         {/* Testimonials */}
         <section className="py-12 md:py-24">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">What Parents Say</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Testimonial 1 */}
-            <div className="bg-white p-6 rounded-xl shadow-md">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full bg-madrasah-purple-light flex items-center justify-center text-madrasah-purple font-bold">A</div>
-                <div className="ml-4">
-                  <h4 className="font-semibold">Aisha M.</h4>
-                  <p className="text-sm text-gray-600">Parent of 2 children</p>
-                </div>
-              </div>
-              <p className="text-gray-600">
-                "Virtual Madrasah has transformed my children's Islamic education. They look forward to their lessons and have made remarkable progress."
-              </p>
-            </div>
-            
-            {/* Testimonial 2 */}
-            <div className="bg-white p-6 rounded-xl shadow-md">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full bg-madrasah-blue-light flex items-center justify-center text-madrasah-blue font-bold">Y</div>
-                <div className="ml-4">
-                  <h4 className="font-semibold">Yusuf K.</h4>
-                  <p className="text-sm text-gray-600">Father of a 10-year-old</p>
-                </div>
-              </div>
-              <p className="text-gray-600">
-                "The flexibility of online learning combined with the structured curriculum has been perfect for our busy family schedule."
-              </p>
-            </div>
-            
-            {/* Testimonial 3 */}
-            <div className="bg-white p-6 rounded-xl shadow-md">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full bg-madrasah-green-light flex items-center justify-center text-madrasah-green font-bold">S</div>
-                <div className="ml-4">
-                  <h4 className="font-semibold">Sarah J.</h4>
-                  <p className="text-sm text-gray-600">Mother of 3 children</p>
-                </div>
-              </div>
-              <p className="text-gray-600">
-                "I appreciate the regular progress updates and the ability to monitor my children's learning journey. The teachers are caring and knowledgeable."
-              </p>
-            </div>
-          </div>
+          
+          
         </section>
       </div>
-    </MainLayout>
-  );
+    </MainLayout>;
 };
-
 export default LandingPage;
